@@ -11,6 +11,11 @@
   --brand-teal: #5A8785;
   --bg-dark:   #111;
   --text-light: #fafafa;
+
+  /* ─── Adjustable GIF Settings ─── */
+  --gif-height: 250px;     /* Change this to adjust height */
+  --gif-width: 20%;       /* Change this to adjust width */
+  --gif-speed: 15s;        /* Change this to adjust speed */
 }
 
 html, body {
@@ -23,29 +28,65 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─── HEADER ───────────────────────────────────────────────────────────────── */
-header {
+/* ─── HEADER WITH ANIMATED GIF ────────────────────────────────────────────── */
+.header-banner {
+  position: relative;
+  height: var(--gif-height);
   display: flex;
-  justify-content: space-between;  /* logos at ends */
-  align-items:    center;
-  padding: 0.5rem 0.8rem;
-  background: #000;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+
+.header-gif {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: var(--gif-height);
+  width: var(--gif-width); /* Fully controlled by CSS variable */
+  opacity: 1.6;
+  z-index: 0;
+  object-fit: cover;
+  animation: slideAnimation var(--gif-speed) linear infinite alternate;
+}
+
+/* ─── ANIMATION ───────────────────────────────────────────────────────────── */
+@keyframes slideAnimation {
+  0% {
+    transform: translateX(-100vw); /* Start fully off-screen left */
+  }
+  100% {
+    transform: translateX(100vw);  /* Move fully across to the right */
+  }
+}
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* Optional dark overlay */
+  z-index: 0;
+}
+
+header .logo-container,
+header .title {
+  position: relative;
+  z-index: 1;
 }
 
 header .logo {
-  flex: 0 0 auto;  /* don’t stretch or shrink */
-  height: 180px;          /* increased by 50% */
+  height: 180px;
   margin-bottom: 0.3rem;
 }
 
 header .title {
-  flex: 1 1 auto;   /* fill center gap */
+  flex: 1 1 auto;
   text-align: center;
 }
 
 header .title h1 {
   font-size: 2rem;
   margin: 0;
+  font-family: 'Bebas Neue', sans-serif;
 }
 
 header .title .tagline {
@@ -102,7 +143,6 @@ header .title h1 {
     height: 180px !important;  /* keep 50% larger */
   }
 }
-
 /* ─── SECTIONS ────────────────────────────────────────────────────────────── */
 section {
   background: #222;
